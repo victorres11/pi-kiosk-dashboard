@@ -5,6 +5,7 @@ import {
   NewsWidget,
   CFPBracketWidget,
   MessageBanner,
+  CountdownWidget,
 } from './widgets';
 import './Dashboard.css';
 
@@ -17,9 +18,12 @@ export function Dashboard() {
           <MessageBanner />
         </div>
 
-        {/* Clock row */}
+        {/* Clock and Countdown row */}
         <div className="grid-item clock-area">
           <ClockWidget />
+        </div>
+        <div className="grid-item countdown-area">
+          <CountdownWidget />
         </div>
 
         {/* Middle row: Main widgets */}

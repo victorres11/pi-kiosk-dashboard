@@ -5,4 +5,5 @@ export { NewsWidget } from './NewsWidget';
 export { CalendarWidget } from './CalendarWidget';
 export { CFPBracketWidget } from './CFPBracketWidget';
 export { MessageBanner } from './MessageBanner';
+export { CountdownWidget } from './CountdownWidget';
 export { WidgetContainer } from './WidgetContainer';

@@ -23,7 +23,12 @@
 }
 
 .clock-area {
-  grid-column: span 12;
+  grid-column: span 6;
+  grid-row: 2;
+}
+
+.countdown-area {
+  grid-column: span 6;
   grid-row: 2;
 }
 
@@ -111,27 +116,36 @@
 
   .dashboard-grid {
     gap: 0.5rem;
-    grid-template-rows: auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto auto;
   }
 
   .clock-area {
     grid-column: span 12;
   }
 
+  .countdown-area {
+    grid-column: span 12;
+    grid-row: 3;
+  }
+
   .weather-area {
     grid-column: span 12;
+    grid-row: 4;
   }
 
   .news-area {
     grid-column: span 12;
+    grid-row: 5;
   }
 
   .bracket-area {
     grid-column: span 12;
+    grid-row: 6;
   }
 
   .sports-area {
     grid-column: span 12;
+    grid-row: 7;
   }
 }
 

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Heart } from 'lucide-react';
 import './MessageBanner.css';
 
 interface Message {
@@ -39,9 +38,7 @@ export function MessageBanner() {
   return (
     <div className="message-banner">
       <div className="message-content">
-        {currentMessage.icon === 'heart' && <Heart size={16} className="message-icon heart" />}
         <span className="message-text">{currentMessage.text}</span>
-        {currentMessage.icon === 'heart' && <Heart size={16} className="message-icon heart" />}
       </div>
     </div>
   );

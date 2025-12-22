@@ -1,0 +1,125 @@
+.countdown-widget {
+  background: linear-gradient(135deg, rgba(170, 0, 0, 0.2) 0%, rgba(180, 151, 90, 0.15) 100%);
+  border: 1px solid rgba(170, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.countdown-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.team-logo {
+  font-size: 1.5rem;
+}
+
+.team-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #b4975a;
+  letter-spacing: 0.15em;
+}
+
+.game-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f3f4f6;
+}
+
+.game-type {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+
+.opponent {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+.game-week {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.countdown-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.time-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 2.5rem;
+}
+
+.time-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #aa0000;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.time-separator {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #b4975a;
+  margin-bottom: 0.75rem;
+}
+
+.time-label {
+  font-size: 0.6rem;
+  color: #9ca3af;
+  letter-spacing: 0.1em;
+  margin-top: 0.15rem;
+}
+
+.offseason-message {
+  font-size: 1rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1400px) {
+  .time-value {
+    font-size: 2rem;
+  }
+
+  .team-name {
+    font-size: 1.5rem;
+  }
+
+  .opponent {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .countdown-widget {
+    padding: 0.75rem;
+  }
+
+  .time-value {
+    font-size: 1.5rem;
+  }
+
+  .time-unit {
+    min-width: 2rem;
+  }
+}
