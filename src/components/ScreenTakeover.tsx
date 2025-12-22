@@ -105,15 +105,7 @@ const thisDayInHistory: Record<string, string[]> = {
 const GIPHY_API_KEY = 'dc6zaTOxFJmzC'; // Public beta key
 const gifSearchTerms = ['funny celebration', 'happy dance', 'excited', 'sports celebration', 'cute animals', 'funny fails', 'victory dance', 'mind blown'];
 
-// Jim Harbaugh images and captions
-const harbaughImages = [
-  { url: 'https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/5765.png&w=350&h=254', caption: 'Coach Jim Harbaugh' },
-  { url: 'https://a.espncdn.com/photo/2024/0125/r1278891_1296x729_16-9.jpg', caption: 'National Champion' },
-  { url: 'https://a.espncdn.com/photo/2024/0209/r1287481_1296x729_16-9.jpg', caption: 'Chargers Head Coach' },
-  { url: 'https://a.espncdn.com/photo/2023/1231/r1273889_1296x729_16-9.jpg', caption: 'Michigan Legend' },
-  { url: 'https://a.espncdn.com/photo/2024/1103/r1408889_1296x729_16-9.jpg', caption: 'The Harbaugh Way' },
-];
-
+// Jim Harbaugh quotes - we'll fetch GIFs dynamically
 const harbaughQuotes = [
   "Who's got it better than us? NOBODY!",
   "Attack each day with an enthusiasm unknown to mankind.",
@@ -178,9 +170,28 @@ export function ScreenTakeover() {
           setContent(events[Math.floor(Math.random() * events.length)]);
           break;
         case 'harbaugh':
-          const image = harbaughImages[Math.floor(Math.random() * harbaughImages.length)];
-          const quote = harbaughQuotes[Math.floor(Math.random() * harbaughQuotes.length)];
-          setContent({ ...image, quote });
+          try {
+            const harbaughResponse = await fetch(
+              `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=jim+harbaugh&limit=20&rating=g`
+            );
+            const harbaughData = await harbaughResponse.json();
+            if (harbaughData.data && harbaughData.data.length > 0) {
+              const randomGif = harbaughData.data[Math.floor(Math.random() * harbaughData.data.length)];
+              const quote = harbaughQuotes[Math.floor(Math.random() * harbaughQuotes.length)];
+              setContent({
+                url: randomGif.images.original.url,
+                quote,
+              });
+            } else {
+              // Fallback to quote if no GIFs found
+              setTakeoverType('quote');
+              setContent(quotes[Math.floor(Math.random() * quotes.length)]);
+            }
+          } catch (err) {
+            console.warn('Failed to fetch Harbaugh GIF:', err);
+            setTakeoverType('quote');
+            setContent(quotes[Math.floor(Math.random() * quotes.length)]);
+          }
           break;
       }
 
