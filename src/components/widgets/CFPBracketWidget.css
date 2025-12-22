@@ -1,0 +1,264 @@
+.cfp-widget {
+  display: flex;
+  flex-direction: column;
+}
+
+.cfp-bracket {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.view-tabs {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(55, 65, 81, 0.3);
+  padding: 0.2rem;
+  border-radius: 6px;
+}
+
+.view-tab {
+  flex: 1;
+  padding: 0.3rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-tab:hover {
+  color: #f3f4f6;
+}
+
+.view-tab.active {
+  background: rgba(96, 165, 250, 0.3);
+  color: #60a5fa;
+}
+
+.bracket-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.round-view {
+  animation: fadeIn 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.round-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(55, 65, 81, 0.5);
+}
+
+.round-header span:first-child {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+.round-note {
+  font-size: 0.65rem;
+  color: #6b7280;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.first-round-view .games-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Game Card */
+.game-card {
+  background: rgba(55, 65, 81, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.game-card.compact {
+  padding: 0.35rem;
+}
+
+.game-card.live {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.game-card.championship {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(234, 179, 8, 0.1) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.game-name {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #60a5fa;
+}
+
+.game-venue {
+  font-size: 0.55rem;
+  color: #6b7280;
+}
+
+.game-date {
+  font-size: 0.6rem;
+  color: #9ca3af;
+}
+
+.matchup {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vs-divider {
+  font-size: 0.55rem;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.team-slot {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.3rem;
+  background: rgba(17, 24, 39, 0.5);
+  border-radius: 4px;
+  min-width: 0;
+}
+
+.team-slot.tbd {
+  opacity: 0.5;
+}
+
+.team-slot.winner {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.team-seed {
+  font-size: 0.55rem;
+  color: #f59e0b;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.team-abbrev {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-slot.winner .team-abbrev {
+  color: #10b981;
+}
+
+.team-score {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #f3f4f6;
+  flex-shrink: 0;
+}
+
+.team-slot.winner .team-score {
+  color: #10b981;
+}
+
+.live-badge,
+.final-badge {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  font-size: 0.5rem;
+  font-weight: 700;
+  padding: 0.1rem 0.25rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.live-badge {
+  background: #ef4444;
+  color: white;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.final-badge {
+  background: rgba(107, 114, 128, 0.5);
+  color: #9ca3af;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Final Four View */
+.final-four-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.semis-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+
+.championship-row {
+  display: flex;
+  justify-content: center;
+}
+
+.championship-row .game-card {
+  width: 70%;
+}
+
+.championship-row .game-name {
+  color: #f59e0b;
+  font-size: 0.7rem;
+}
