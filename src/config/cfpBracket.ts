@@ -1,5 +1,5 @@
 // College Football Playoff Bracket Configuration
-// Update this when the bracket is announced or games are completed
+// 2025-26 Season - Update scores and status as games complete
 
 export interface CFPTeam {
   seed: number;
@@ -13,12 +13,12 @@ export interface CFPTeam {
 export interface CFPGame {
   id: string;
   round: 'first-round' | 'quarterfinal' | 'semifinal' | 'championship';
-  name: string; // e.g., "Fiesta Bowl", "Rose Bowl"
+  name: string;
   date: string;
   time?: string;
   network?: string;
   venue?: string;
-  team1Seed: number | null; // null if TBD
+  team1Seed: number | null;
   team2Seed: number | null;
   team1Score?: number;
   team2Score?: number;
@@ -26,21 +26,20 @@ export interface CFPGame {
   winnerSeed?: number;
 }
 
-// 2024-25 CFP Teams (12-team format)
-// Update seeds, records, etc. as needed
+// 2025-26 CFP Teams (12-team format)
 export const cfpTeams: CFPTeam[] = [
-  { seed: 1, name: 'Oregon', abbreviation: 'ORE', record: '13-0', conference: 'Big Ten' },
-  { seed: 2, name: 'Georgia', abbreviation: 'UGA', record: '11-2', conference: 'SEC' },
-  { seed: 3, name: 'Boise State', abbreviation: 'BSU', record: '12-1', conference: 'MWC' },
-  { seed: 4, name: 'Arizona State', abbreviation: 'ASU', record: '11-2', conference: 'Big 12' },
-  { seed: 5, name: 'Texas', abbreviation: 'TEX', record: '11-2', conference: 'SEC' },
-  { seed: 6, name: 'Penn State', abbreviation: 'PSU', record: '11-2', conference: 'Big Ten' },
-  { seed: 7, name: 'Notre Dame', abbreviation: 'ND', record: '11-1', conference: 'Independent' },
-  { seed: 8, name: 'Ohio State', abbreviation: 'OSU', record: '10-2', conference: 'Big Ten' },
-  { seed: 9, name: 'Tennessee', abbreviation: 'TENN', record: '10-2', conference: 'SEC' },
-  { seed: 10, name: 'Indiana', abbreviation: 'IND', record: '11-1', conference: 'Big Ten' },
-  { seed: 11, name: 'SMU', abbreviation: 'SMU', record: '11-2', conference: 'ACC' },
-  { seed: 12, name: 'Clemson', abbreviation: 'CLEM', record: '10-3', conference: 'ACC' },
+  { seed: 1, name: 'Indiana', abbreviation: 'IND', record: '12-0', conference: 'Big Ten' },
+  { seed: 2, name: 'Ohio State', abbreviation: 'OSU', record: '11-1', conference: 'Big Ten' },
+  { seed: 3, name: 'Georgia', abbreviation: 'UGA', record: '11-1', conference: 'SEC' },
+  { seed: 4, name: 'Texas Tech', abbreviation: 'TTU', record: '11-1', conference: 'Big 12' },
+  { seed: 5, name: 'Oregon', abbreviation: 'ORE', record: '11-1', conference: 'Big Ten' },
+  { seed: 6, name: 'Ole Miss', abbreviation: 'MISS', record: '10-2', conference: 'SEC' },
+  { seed: 7, name: 'Texas A&M', abbreviation: 'TAMU', record: '10-2', conference: 'SEC' },
+  { seed: 8, name: 'Oklahoma', abbreviation: 'OU', record: '10-2', conference: 'SEC' },
+  { seed: 9, name: 'Alabama', abbreviation: 'BAMA', record: '10-2', conference: 'SEC' },
+  { seed: 10, name: 'Miami', abbreviation: 'MIA', record: '10-2', conference: 'ACC' },
+  { seed: 11, name: 'Tulane', abbreviation: 'TULN', record: '11-2', conference: 'AAC' },
+  { seed: 12, name: 'James Madison', abbreviation: 'JMU', record: '11-1', conference: 'Sun Belt' },
 ];
 
 // Bracket structure - update scores and status as games complete
@@ -50,40 +49,40 @@ export const cfpGames: CFPGame[] = [
     id: 'fr1',
     round: 'first-round',
     name: 'First Round',
-    date: 'Dec 20',
+    date: 'Dec 19',
     time: '8:00 PM',
-    network: 'ABC',
+    network: 'ESPN',
     team1Seed: 8,
     team2Seed: 9,
-    team1Score: 42,
-    team2Score: 17,
+    team1Score: 24,
+    team2Score: 34,
     status: 'final',
-    winnerSeed: 8,
+    winnerSeed: 9,
   },
   {
     id: 'fr2',
     round: 'first-round',
     name: 'First Round',
-    date: 'Dec 21',
+    date: 'Dec 20',
     time: '12:00 PM',
-    network: 'TNT',
-    team1Seed: 5,
-    team2Seed: 12,
-    team1Score: 38,
-    team2Score: 24,
+    network: 'ESPN',
+    team1Seed: 7,
+    team2Seed: 10,
+    team1Score: 3,
+    team2Score: 10,
     status: 'final',
-    winnerSeed: 5,
+    winnerSeed: 10,
   },
   {
     id: 'fr3',
     round: 'first-round',
     name: 'First Round',
-    date: 'Dec 21',
+    date: 'Dec 20',
     time: '4:00 PM',
-    network: 'TNT',
+    network: 'ESPN',
     team1Seed: 6,
     team2Seed: 11,
-    team1Score: 38,
+    team1Score: 41,
     team2Score: 10,
     status: 'final',
     winnerSeed: 6,
@@ -92,39 +91,39 @@ export const cfpGames: CFPGame[] = [
     id: 'fr4',
     round: 'first-round',
     name: 'First Round',
-    date: 'Dec 21',
+    date: 'Dec 20',
     time: '8:00 PM',
-    network: 'ABC',
-    team1Seed: 7,
-    team2Seed: 10,
-    team1Score: 27,
-    team2Score: 17,
+    network: 'ESPN',
+    team1Seed: 5,
+    team2Seed: 12,
+    team1Score: 51,
+    team2Score: 34,
     status: 'final',
-    winnerSeed: 7,
+    winnerSeed: 5,
   },
   // Quarterfinals (NY6 Bowls)
   {
     id: 'qf1',
     round: 'quarterfinal',
-    name: 'Fiesta Bowl',
+    name: 'Cotton Bowl',
     date: 'Dec 31',
     time: '7:30 PM',
     network: 'ESPN',
-    venue: 'Glendale, AZ',
-    team1Seed: 3,  // Boise State (bye)
-    team2Seed: 6,  // Winner of PSU/SMU
+    venue: 'Arlington, TX',
+    team1Seed: 2,  // Ohio State (bye)
+    team2Seed: 10, // Miami (winner of TAMU/MIA)
     status: 'scheduled',
   },
   {
     id: 'qf2',
     round: 'quarterfinal',
-    name: 'Peach Bowl',
+    name: 'Orange Bowl',
     date: 'Jan 1',
-    time: '1:00 PM',
+    time: '12:00 PM',
     network: 'ESPN',
-    venue: 'Atlanta, GA',
-    team1Seed: 4,  // Arizona State (bye)
-    team2Seed: 5,  // Winner of Texas/Clemson
+    venue: 'Miami, FL',
+    team1Seed: 4,  // Texas Tech (bye)
+    team2Seed: 5,  // Oregon (winner of ORE/JMU)
     status: 'scheduled',
   },
   {
@@ -132,11 +131,11 @@ export const cfpGames: CFPGame[] = [
     round: 'quarterfinal',
     name: 'Rose Bowl',
     date: 'Jan 1',
-    time: '5:00 PM',
+    time: '4:00 PM',
     network: 'ESPN',
     venue: 'Pasadena, CA',
-    team1Seed: 1,  // Oregon (bye)
-    team2Seed: 8,  // Winner of OSU/TENN
+    team1Seed: 1,  // Indiana (bye)
+    team2Seed: 9,  // Alabama (winner of OU/BAMA)
     status: 'scheduled',
   },
   {
@@ -144,34 +143,34 @@ export const cfpGames: CFPGame[] = [
     round: 'quarterfinal',
     name: 'Sugar Bowl',
     date: 'Jan 1',
-    time: '8:45 PM',
+    time: '8:00 PM',
     network: 'ESPN',
     venue: 'New Orleans, LA',
-    team1Seed: 2,  // Georgia (bye)
-    team2Seed: 7,  // Winner of ND/IND
+    team1Seed: 3,  // Georgia (bye)
+    team2Seed: 6,  // Ole Miss (winner of MISS/TULN)
     status: 'scheduled',
   },
   // Semifinals
   {
     id: 'sf1',
     round: 'semifinal',
-    name: 'Orange Bowl',
-    date: 'Jan 9',
+    name: 'Fiesta Bowl',
+    date: 'Jan 8',
     time: '7:30 PM',
     network: 'ESPN',
-    venue: 'Miami, FL',
-    team1Seed: null, // Winner of Fiesta
-    team2Seed: null, // Winner of Peach
+    venue: 'Glendale, AZ',
+    team1Seed: null, // Winner of Cotton
+    team2Seed: null, // Winner of Orange
     status: 'scheduled',
   },
   {
     id: 'sf2',
     round: 'semifinal',
-    name: 'Cotton Bowl',
-    date: 'Jan 10',
+    name: 'Peach Bowl',
+    date: 'Jan 9',
     time: '7:30 PM',
     network: 'ESPN',
-    venue: 'Arlington, TX',
+    venue: 'Atlanta, GA',
     team1Seed: null, // Winner of Rose
     team2Seed: null, // Winner of Sugar
     status: 'scheduled',
@@ -181,10 +180,10 @@ export const cfpGames: CFPGame[] = [
     id: 'champ',
     round: 'championship',
     name: 'National Championship',
-    date: 'Jan 20',
+    date: 'Jan 19',
     time: '7:30 PM',
     network: 'ESPN',
-    venue: 'Atlanta, GA',
+    venue: 'Miami Gardens, FL',
     team1Seed: null,
     team2Seed: null,
     status: 'scheduled',
