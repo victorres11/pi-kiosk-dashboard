@@ -11,8 +11,8 @@ interface Message {
 const messages: Message[] = [
   {
     id: '1',
-    text: "Hello Addy, please remember to cook dinner. Make it with love and not too late because it's not good to eat late",
-    icon: 'heart',
+    text: "Welcome, Andrés! Remember to wash your hands after going to the bathroom",
+    icon: 'info',
   },
 ];
 
