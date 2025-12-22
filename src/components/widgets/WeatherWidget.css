@@ -1,0 +1,151 @@
+.weather-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-current {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.weather-icon-large {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.3));
+}
+
+.weather-temp-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-temp {
+  font-size: 4rem;
+  font-weight: 300;
+  line-height: 1;
+  color: #f3f4f6;
+}
+
+.weather-description {
+  font-size: 1.25rem;
+  color: #9ca3af;
+  text-transform: capitalize;
+}
+
+.weather-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.weather-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  font-size: 1rem;
+}
+
+.weather-detail svg {
+  color: #60a5fa;
+}
+
+.weather-location {
+  font-size: 1rem;
+  color: #6b7280;
+  border-top: 1px solid #374151;
+  padding-top: 0.75rem;
+}
+
+.weather-chart {
+  padding-top: 0.5rem;
+}
+
+.weather-chart h4 {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.weather-forecast {
+  padding-top: 0.5rem;
+}
+
+.weather-forecast h4 {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.forecast-days {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.forecast-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1;
+  padding: 0.5rem;
+  background: rgba(55, 65, 81, 0.3);
+  border-radius: 8px;
+}
+
+.forecast-date {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.forecast-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.forecast-temps {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+
+.forecast-high {
+  color: #f3f4f6;
+  font-weight: 600;
+}
+
+.forecast-low {
+  color: #6b7280;
+}
+
+/* Responsive adjustments for large displays */
+@media (min-width: 1200px) {
+  .weather-temp {
+    font-size: 5rem;
+  }
+
+  .weather-icon-large {
+    width: 100px;
+    height: 100px;
+  }
+
+  .weather-description {
+    font-size: 1.5rem;
+  }
+
+  .weather-detail {
+    font-size: 1.125rem;
+  }
+}

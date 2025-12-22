@@ -1,0 +1,159 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  background-attachment: fixed;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 1.5rem;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* Grid area assignments */
+.clock-area {
+  grid-column: span 12;
+}
+
+.weather-area {
+  grid-column: span 6;
+}
+
+.sports-area {
+  grid-column: span 6;
+}
+
+.news-area {
+  grid-column: span 6;
+}
+
+.calendar-area {
+  grid-column: span 6;
+}
+
+/* Grid item base styles */
+.grid-item {
+  min-height: 200px;
+}
+
+.grid-item > * {
+  height: 100%;
+}
+
+/* Responsive layouts */
+
+/* Large displays (TV, monitors) */
+@media (min-width: 1400px) {
+  .dashboard {
+    padding: 2rem;
+  }
+
+  .dashboard-grid {
+    gap: 2rem;
+  }
+}
+
+/* Medium displays */
+@media (max-width: 1200px) {
+  .weather-area {
+    grid-column: span 7;
+  }
+
+  .sports-area {
+    grid-column: span 5;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 900px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    gap: 1rem;
+  }
+
+  .clock-area {
+    grid-column: span 12;
+  }
+
+  .weather-area {
+    grid-column: span 12;
+  }
+
+  .sports-area {
+    grid-column: span 12;
+  }
+
+  .news-area {
+    grid-column: span 12;
+  }
+
+  .calendar-area {
+    grid-column: span 12;
+  }
+}
+
+/* Small screens */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 0.75rem;
+  }
+
+  .dashboard-grid {
+    gap: 0.75rem;
+  }
+
+  .grid-item {
+    min-height: 150px;
+  }
+}
+
+/* Landscape orientation optimization for kiosk */
+@media (orientation: landscape) and (min-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: minmax(180px, auto) minmax(350px, 1fr) minmax(300px, auto);
+  }
+
+  .clock-area {
+    grid-column: span 12;
+    grid-row: 1;
+  }
+
+  .weather-area {
+    grid-column: span 5;
+    grid-row: 2;
+  }
+
+  .sports-area {
+    grid-column: span 7;
+    grid-row: 2;
+  }
+
+  .news-area {
+    grid-column: span 6;
+    grid-row: 3;
+  }
+
+  .calendar-area {
+    grid-column: span 6;
+    grid-row: 3;
+  }
+}
+
+/* Full HD (1920x1080) kiosk mode */
+@media (min-width: 1920px) {
+  .dashboard {
+    padding: 2.5rem;
+  }
+
+  .dashboard-grid {
+    gap: 2.5rem;
+  }
+}
