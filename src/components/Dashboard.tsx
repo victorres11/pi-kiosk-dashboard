@@ -4,6 +4,7 @@ import {
   ClockWidget,
   NewsWidget,
   CFPBracketWidget,
+  MessageBanner,
 } from './widgets';
 import './Dashboard.css';
 
@@ -11,7 +12,12 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard-grid">
-        {/* Top row: Clock takes prominence */}
+        {/* Message banner at top */}
+        <div className="grid-item message-area">
+          <MessageBanner />
+        </div>
+
+        {/* Clock row */}
         <div className="grid-item clock-area">
           <ClockWidget />
         </div>
