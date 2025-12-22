@@ -12,53 +12,86 @@ interface NewsStory {
   source: string;
   category: string;
   publishedAt: Date;
+  imageUrl?: string;
+}
+
+interface ESPNImage {
+  url: string;
+  width: number;
+  height: number;
+}
+
+interface ESPNCategory {
+  description?: string;
+  type?: string;
+}
+
+interface ESPNArticle {
+  id: string;
+  headline: string;
+  description: string;
+  published: string;
+  images?: ESPNImage[];
+  categories?: ESPNCategory[];
+}
+
+interface ESPNResponse {
+  articles?: ESPNArticle[];
 }
 
 const ROTATION_INTERVAL = 8000; // 8 seconds per story
 
-// Mock news data - replace with actual API integration
-const mockNews: NewsStory[] = [
-  {
-    id: '1',
-    title: 'College Football Playoff Bracket Revealed',
-    snippet: 'The CFP committee has announced the final 12-team bracket for this season. Top seeds include Georgia, Michigan, and Florida State, setting up potential blockbuster matchups in the quarterfinals.',
-    source: 'ESPN',
-    category: 'Football',
-    publishedAt: new Date(),
-  },
-  {
-    id: '2',
-    title: 'March Madness Early Predictions',
-    snippet: 'Basketball analysts are already projecting top seeds for the upcoming tournament. Duke, Kansas, and UConn lead early projections, while several mid-majors are poised to make deep runs.',
-    source: 'CBS Sports',
-    category: 'Basketball',
-    publishedAt: new Date(Date.now() - 3600000),
-  },
-  {
-    id: '3',
-    title: 'Conference Realignment Updates',
-    snippet: 'The latest round of conference realignment continues to reshape college athletics. The ACC and Big 12 are actively discussing expansion options as schools seek long-term stability.',
-    source: 'The Athletic',
-    category: 'College Sports',
-    publishedAt: new Date(Date.now() - 7200000),
-  },
-  {
-    id: '4',
-    title: 'Transfer Portal Window Opens',
-    snippet: 'Student-athletes across all sports can now enter the transfer portal. Early reports suggest record numbers of players exploring new opportunities ahead of next season.',
-    source: 'Sports Illustrated',
-    category: 'Recruiting',
-    publishedAt: new Date(Date.now() - 10800000),
-  },
-  {
-    id: '5',
-    title: 'NIL Deals Reshaping Recruiting',
-    snippet: 'Name, Image, and Likeness agreements continue to transform how top programs attract talent. Industry experts estimate top recruits are signing deals worth over $1 million annually.',
-    source: 'Yahoo Sports',
-    category: 'Business',
-    publishedAt: new Date(Date.now() - 14400000),
-  },
+// ESPN news endpoints for different sports
+const ESPN_NEWS_ENDPOINTS = [
+  'https://site.api.espn.com/apis/site/v2/sports/football/nfl/news',
+  'https://site.api.espn.com/apis/site/v2/sports/football/college-football/news',
+  'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/news',
 ];
+
+const fetchESPNNews = async (): Promise<NewsStory[]> => {
+  try {
+    // Fetch from multiple ESPN endpoints
+    const responses = await Promise.all(
+      ESPN_NEWS_ENDPOINTS.map((url) =>
+        fetch(url)
+          .then((res) => res.json())
+          .catch(() => ({ articles: [] }))
+      )
+    );
+
+    const allArticles: NewsStory[] = [];
+
+    responses.forEach((data: ESPNResponse, index) => {
+      const sportLabels = ['NFL', 'CFB', 'NBA'];
+      const articles = data.articles || [];
+
+      articles.slice(0, 3).forEach((article: ESPNArticle) => {
+        // Find best image (prefer wider images for our layout)
+        const image = article.images?.find((img) => img.width >= 400) || article.images?.[0];
+
+        // Get category from article
+        const category =
+          article.categories?.find((c) => c.type === 'league')?.description || sportLabels[index];
+
+        allArticles.push({
+          id: article.id,
+          title: article.headline,
+          snippet: article.description,
+          source: 'ESPN',
+          category: category,
+          publishedAt: new Date(article.published),
+          imageUrl: image?.url,
+        });
+      });
+    });
+
+    // Sort by publish date and return top stories
+    return allArticles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime()).slice(0, 8);
+  } catch (error) {
+    console.error('Error fetching ESPN news:', error);
+    return [];
+  }
+};
 
 export function NewsWidget() {
   const [news, setNews] = useState<NewsStory[]>([]);
@@ -67,11 +100,10 @@ export function NewsWidget() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
-    // Simulate API fetch - replace with actual API call
     const fetchNews = async () => {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setNews(mockNews);
+      const stories = await fetchESPNNews();
+      setNews(stories);
       setLastUpdated(new Date());
       setLoading(false);
     };
@@ -98,7 +130,7 @@ export function NewsWidget() {
 
   return (
     <WidgetContainer
-      title="News"
+      title="Sports News"
       icon={<Newspaper size={18} />}
       loading={loading}
       lastUpdated={lastUpdated}
@@ -107,19 +139,33 @@ export function NewsWidget() {
       {news.length > 0 && currentStory && (
         <div className="news-rotator">
           <div className="news-story" key={currentStory.id}>
-            <div className="story-header">
-              <span className="story-category">{currentStory.category}</span>
-              <span className="story-time">
-                {formatDistanceToNow(currentStory.publishedAt, { addSuffix: true })}
-              </span>
-            </div>
+            <div className="story-layout">
+              {currentStory.imageUrl && (
+                <div className="story-image-container">
+                  <img
+                    src={currentStory.imageUrl}
+                    alt={currentStory.title}
+                    className="story-image"
+                  />
+                </div>
+              )}
 
-            <h3 className="story-title">{currentStory.title}</h3>
+              <div className="story-content">
+                <div className="story-header">
+                  <span className="story-category">{currentStory.category}</span>
+                  <span className="story-time">
+                    {formatDistanceToNow(currentStory.publishedAt, { addSuffix: true })}
+                  </span>
+                </div>
 
-            <p className="story-snippet">{currentStory.snippet}</p>
+                <h3 className="story-title">{currentStory.title}</h3>
 
-            <div className="story-footer">
-              <span className="story-source">{currentStory.source}</span>
+                <p className="story-snippet">{currentStory.snippet}</p>
+
+                <div className="story-footer">
+                  <span className="story-source">{currentStory.source}</span>
+                </div>
+              </div>
             </div>
           </div>
 

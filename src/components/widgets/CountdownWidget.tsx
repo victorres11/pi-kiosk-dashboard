@@ -1,25 +1,74 @@
 import { useState, useEffect } from 'react';
 import './CountdownWidget.css';
 
-interface NextGame {
+interface GameInfo {
   opponent: string;
+  opponentAbbrev: string;
   date: Date;
   isHome: boolean;
   week: string;
+  ninersRecord: string;
+  opponentRecord: string;
+  spread: string;
+  overUnder: string;
+  broadcast: string;
+  venue: string;
 }
 
+// NFL team logos via ESPN CDN
+const teamLogos: Record<string, string> = {
+  '49ers': 'https://a.espncdn.com/i/teamlogos/nfl/500/sf.png',
+  'Colts': 'https://a.espncdn.com/i/teamlogos/nfl/500/ind.png',
+  'Bears': 'https://a.espncdn.com/i/teamlogos/nfl/500/chi.png',
+  'Seahawks': 'https://a.espncdn.com/i/teamlogos/nfl/500/sea.png',
+};
+
 // 49ers 2025-26 remaining schedule - update as needed
-const getNextGame = (): NextGame | null => {
+const getNextGame = (): GameInfo | null => {
   const now = new Date();
 
-  // 49ers remaining games (update these as the season progresses)
-  const schedule: NextGame[] = [
-    { opponent: 'Colts', date: new Date('2025-12-22T17:15:00-08:00'), isHome: false, week: 'Week 16' },
-    { opponent: 'Bears', date: new Date('2025-12-28T17:20:00-08:00'), isHome: true, week: 'Week 17' },
-    { opponent: 'Seahawks', date: new Date('2026-01-04T13:25:00-08:00'), isHome: true, week: 'Week 18' },
+  const schedule: GameInfo[] = [
+    {
+      opponent: 'Colts',
+      opponentAbbrev: 'IND',
+      date: new Date('2025-12-22T17:15:00-08:00'),
+      isHome: false,
+      week: 'Week 16',
+      ninersRecord: '10-4',
+      opponentRecord: '6-8',
+      spread: 'SF -5.5',
+      overUnder: 'O/U 46.5',
+      broadcast: 'ESPN/ABC',
+      venue: 'Lucas Oil Stadium',
+    },
+    {
+      opponent: 'Bears',
+      opponentAbbrev: 'CHI',
+      date: new Date('2025-12-28T17:20:00-08:00'),
+      isHome: true,
+      week: 'Week 17',
+      ninersRecord: '10-4',
+      opponentRecord: '4-10',
+      spread: 'TBD',
+      overUnder: 'TBD',
+      broadcast: 'NBC',
+      venue: "Levi's Stadium",
+    },
+    {
+      opponent: 'Seahawks',
+      opponentAbbrev: 'SEA',
+      date: new Date('2026-01-04T13:25:00-08:00'),
+      isHome: true,
+      week: 'Week 18',
+      ninersRecord: '10-4',
+      opponentRecord: '8-6',
+      spread: 'TBD',
+      overUnder: 'TBD',
+      broadcast: 'TBD',
+      venue: "Levi's Stadium",
+    },
   ];
 
-  // Find the next upcoming game
   for (const game of schedule) {
     if (game.date > now) {
       return game;
@@ -52,14 +101,29 @@ const calculateTimeLeft = (targetDate: Date): TimeLeft => {
   };
 };
 
+const formatGameTime = (date: Date): string => {
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  });
+};
+
+const formatGameDate = (date: Date): string => {
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
 export function CountdownWidget() {
-  const [nextGame, setNextGame] = useState<NextGame | null>(getNextGame);
+  const [nextGame, setNextGame] = useState<GameInfo | null>(getNextGame);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
     nextGame ? calculateTimeLeft(nextGame.date) : { days: 0, hours: 0, minutes: 0, seconds: 0 }
   );
 
   useEffect(() => {
-    // Update next game check every hour
     const gameCheckInterval = setInterval(() => {
       setNextGame(getNextGame());
     }, 60 * 60 * 1000);
@@ -81,12 +145,10 @@ export function CountdownWidget() {
     return (
       <div className="countdown-widget">
         <div className="countdown-header">
-          <span className="team-logo">🏈</span>
+          <img src={teamLogos['49ers']} alt="49ers" className="team-logo-img" />
           <span className="team-name">49ERS</span>
         </div>
-        <div className="offseason-message">
-          Season Complete
-        </div>
+        <div className="offseason-message">Season Complete</div>
       </div>
     );
   }
@@ -95,17 +157,44 @@ export function CountdownWidget() {
 
   return (
     <div className="countdown-widget">
-      <div className="countdown-header">
-        <span className="team-logo">🏈</span>
-        <span className="team-name">49ERS</span>
+      {/* Matchup header with logos */}
+      <div className="matchup-header">
+        <div className="team-block niners">
+          <img src={teamLogos['49ers']} alt="49ers" className="team-logo-img" />
+          <span className="team-record">{nextGame.ninersRecord}</span>
+        </div>
+
+        <div className="vs-block">
+          <span className="at-symbol">{nextGame.isHome ? 'VS' : '@'}</span>
+          <span className="game-week-label">{nextGame.week}</span>
+        </div>
+
+        <div className="team-block opponent">
+          <img src={teamLogos[nextGame.opponent]} alt={nextGame.opponent} className="team-logo-img" />
+          <span className="team-record">{nextGame.opponentRecord}</span>
+        </div>
       </div>
 
-      <div className="game-info">
-        <span className="game-type">{nextGame.isHome ? 'VS' : '@'}</span>
-        <span className="opponent">{nextGame.opponent}</span>
-        <span className="game-week">{nextGame.week}</span>
+      {/* Game details */}
+      <div className="game-details">
+        <div className="detail-row">
+          <span className="detail-item venue">{nextGame.venue}</span>
+          <span className="detail-item broadcast">{nextGame.broadcast}</span>
+        </div>
+        <div className="detail-row">
+          <span className="detail-item date-time">
+            {formatGameDate(nextGame.date)} • {formatGameTime(nextGame.date)}
+          </span>
+        </div>
       </div>
 
+      {/* Betting line */}
+      <div className="betting-info">
+        <span className="spread">{nextGame.spread}</span>
+        <span className="over-under">{nextGame.overUnder}</span>
+      </div>
+
+      {/* Countdown timer */}
       <div className="countdown-timer">
         <div className="time-unit">
           <span className="time-value">{formatNumber(timeLeft.days)}</span>
