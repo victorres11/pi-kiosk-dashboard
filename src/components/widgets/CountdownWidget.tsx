@@ -8,14 +8,15 @@ interface NextGame {
   week: string;
 }
 
-// 49ers 2024-25 remaining schedule - update as needed
+// 49ers 2025-26 remaining schedule - update as needed
 const getNextGame = (): NextGame | null => {
   const now = new Date();
 
   // 49ers remaining games (update these as the season progresses)
   const schedule: NextGame[] = [
-    { opponent: 'Lions', date: new Date('2024-12-30T20:15:00-08:00'), isHome: false, week: 'Week 17' },
-    { opponent: 'Cardinals', date: new Date('2025-01-05T16:25:00-08:00'), isHome: true, week: 'Week 18' },
+    { opponent: 'Colts', date: new Date('2025-12-22T17:15:00-08:00'), isHome: false, week: 'Week 16' },
+    { opponent: 'Bears', date: new Date('2025-12-28T17:20:00-08:00'), isHome: true, week: 'Week 17' },
+    { opponent: 'Seahawks', date: new Date('2026-01-04T13:25:00-08:00'), isHome: true, week: 'Week 18' },
   ];
 
   // Find the next upcoming game
