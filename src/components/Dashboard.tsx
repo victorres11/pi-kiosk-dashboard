@@ -7,11 +7,13 @@ import {
   MessageBanner,
   CountdownWidget,
 } from './widgets';
+import { ScreenTakeover } from './ScreenTakeover';
 import './Dashboard.css';
 
 export function Dashboard() {
   return (
     <div className="dashboard">
+      <ScreenTakeover />
       <div className="dashboard-grid">
         {/* Message banner at top */}
         <div className="grid-item message-area">

@@ -1,0 +1,156 @@
+.screen-takeover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.97);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  animation: fadeInOut 10s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.takeover-content {
+  text-align: center;
+  padding: 3rem;
+  max-width: 85%;
+}
+
+/* Quote Styles */
+.takeover-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.quote-icon {
+  font-size: 6rem;
+  line-height: 1;
+  color: #60a5fa;
+  opacity: 0.5;
+  font-family: Georgia, serif;
+  margin-bottom: -2rem;
+}
+
+.quote-text {
+  font-size: 2.5rem;
+  color: #f3f4f6;
+  font-style: italic;
+  line-height: 1.4;
+  font-weight: 300;
+}
+
+.quote-author {
+  font-size: 1.25rem;
+  color: #60a5fa;
+  font-weight: 500;
+}
+
+/* GIF Styles */
+.takeover-gif {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gif-image {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Did You Know Styles */
+.takeover-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.fact-label {
+  font-size: 1.25rem;
+  color: #a78bfa;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+}
+
+.fact-text {
+  font-size: 2.25rem;
+  color: #f3f4f6;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* This Day in History Styles */
+.takeover-history {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.history-label {
+  font-size: 1.25rem;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 600;
+}
+
+.history-event {
+  font-size: 2.25rem;
+  color: #f3f4f6;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .quote-text,
+  .fact-text,
+  .history-event {
+    font-size: 1.75rem;
+  }
+
+  .quote-icon {
+    font-size: 4rem;
+  }
+
+  .gif-image {
+    max-height: 50vh;
+  }
+}
+
+@media (min-width: 1920px) {
+  .quote-text,
+  .fact-text,
+  .history-event {
+    font-size: 3rem;
+  }
+
+  .quote-author,
+  .fact-label,
+  .history-label {
+    font-size: 1.5rem;
+  }
+}
