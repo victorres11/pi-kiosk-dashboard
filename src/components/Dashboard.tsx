@@ -16,23 +16,22 @@ export function Dashboard() {
           <ClockWidget />
         </div>
 
-        {/* Weather widget - large, left side */}
+        {/* Middle row: Main widgets */}
         <div className="grid-item weather-area">
           <WeatherWidget />
         </div>
 
-        {/* Sports widget - right side */}
-        <div className="grid-item sports-area">
-          <SportsWidget />
-        </div>
-
-        {/* Bottom row: Placeholder widgets */}
         <div className="grid-item news-area">
           <NewsWidget />
         </div>
 
         <div className="grid-item calendar-area">
           <CalendarWidget />
+        </div>
+
+        {/* Bottom: Sports ticker full width */}
+        <div className="grid-item sports-area">
+          <SportsWidget />
         </div>
       </div>
     </div>

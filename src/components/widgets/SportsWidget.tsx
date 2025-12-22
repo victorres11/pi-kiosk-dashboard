@@ -1,168 +1,103 @@
-import { useState, useEffect } from 'react';
-import { Trophy, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { format, isToday, isTomorrow } from 'date-fns';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { fetchSportsData } from '../../utils/api';
 import { config } from '../../config/dashboard.config';
-import { WidgetContainer } from './WidgetContainer';
 import type { SportsData, Game } from '../../types';
 import './SportsWidget.css';
 
-const TICKER_INTERVAL = 5000; // 5 seconds per game
-
 export function SportsWidget() {
-  const { data, loading, error, lastUpdated } = useDataFetcher<SportsData>({
+  const { data, loading, error } = useDataFetcher<SportsData>({
     fetchFn: fetchSportsData,
     refreshInterval: config.refreshIntervals.sports,
     enabled: config.widgets.sports,
   });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  if (!config.widgets.sports) return null;
 
   const allGames = data?.games || [];
 
-  // Auto-rotate through games
-  useEffect(() => {
-    if (allGames.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % allGames.length);
-    }, TICKER_INTERVAL);
-
-    return () => clearInterval(interval);
-  }, [allGames.length]);
-
-  // Reset index when data changes
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [data]);
-
-  if (!config.widgets.sports) return null;
-
-  const currentGame = allGames[currentIndex];
-
   return (
-    <WidgetContainer
-      title="College Sports"
-      icon={<Trophy size={20} />}
-      loading={loading}
-      error={error}
-      lastUpdated={lastUpdated}
-      className="sports-widget"
-    >
-      {data && allGames.length > 0 && currentGame && (
-        <div className="sports-ticker">
-          <div className="ticker-nav">
-            <button
-              className="ticker-btn"
-              onClick={() => setCurrentIndex((prev) => (prev - 1 + allGames.length) % allGames.length)}
-              aria-label="Previous game"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <span className="ticker-counter">
-              {currentIndex + 1} / {allGames.length}
-            </span>
-            <button
-              className="ticker-btn"
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % allGames.length)}
-              aria-label="Next game"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+    <div className="sports-ticker-wrapper">
+      <div className="ticker-label">
+        <Trophy size={16} />
+        <span>COLLEGE SPORTS</span>
+      </div>
 
-          <GameCard key={currentGame.id} game={currentGame} />
+      {loading && allGames.length === 0 && (
+        <div className="ticker-loading">Loading scores...</div>
+      )}
 
-          <div className="ticker-dots">
-            {allGames.map((_, idx) => (
-              <button
-                key={idx}
-                className={`ticker-dot ${idx === currentIndex ? 'active' : ''}`}
-                onClick={() => setCurrentIndex(idx)}
-                aria-label={`Go to game ${idx + 1}`}
-              />
+      {error && allGames.length === 0 && (
+        <div className="ticker-error">Unable to load scores</div>
+      )}
+
+      {allGames.length > 0 && (
+        <div className="ticker-track">
+          <div className="ticker-content">
+            {/* Duplicate content for seamless loop */}
+            {[...allGames, ...allGames].map((game, idx) => (
+              <GameTicker key={`${game.id}-${idx}`} game={game} />
             ))}
           </div>
         </div>
       )}
 
-      {data && allGames.length === 0 && (
-        <div className="no-games">
-          <p>No games scheduled</p>
-        </div>
+      {!loading && !error && allGames.length === 0 && (
+        <div className="ticker-empty">No games scheduled</div>
       )}
-    </WidgetContainer>
+    </div>
   );
 }
 
-function GameCard({ game }: { game: Game }) {
+function GameTicker({ game }: { game: Game }) {
   const formatGameTime = (date: Date) => {
     if (isToday(date)) {
-      return `Today, ${format(date, 'h:mm a')}`;
+      return format(date, 'h:mm a');
     }
     if (isTomorrow(date)) {
-      return `Tomorrow, ${format(date, 'h:mm a')}`;
+      return `Tom ${format(date, 'h:mm a')}`;
     }
-    return format(date, 'EEE M/d, h:mm a');
+    return format(date, 'M/d h:mm a');
   };
 
   const isLive = game.status === 'in_progress';
   const isFinal = game.status === 'final';
 
   return (
-    <div className={`game-card ${isLive ? 'live' : ''} ${isFinal ? 'final' : ''}`}>
-      <div className="game-header">
-        <span className="league-badge">{game.league}</span>
-        {isLive && <span className="status-badge live">{game.statusDetail}</span>}
-        {isFinal && <span className="status-badge final">Final</span>}
-        {!isLive && !isFinal && (
-          <span className="game-time">{formatGameTime(game.startTime)}</span>
-        )}
-      </div>
+    <div className={`ticker-game ${isLive ? 'live' : ''}`}>
+      <span className="ticker-league">{game.league}</span>
 
-      <div className="game-matchup">
-        <TeamRow team={game.awayTeam} isWinner={isFinal && (game.awayTeam.score ?? 0) > (game.homeTeam.score ?? 0)} />
-        <TeamRow team={game.homeTeam} isWinner={isFinal && (game.homeTeam.score ?? 0) > (game.awayTeam.score ?? 0)} isHome />
-      </div>
-
-      {game.broadcast && !isFinal && (
-        <div className="game-broadcast">
-          <span>{game.broadcast}</span>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function TeamRow({
-  team,
-  isHome,
-  isWinner,
-}: {
-  team: Game['homeTeam'];
-  isHome?: boolean;
-  isWinner?: boolean;
-}) {
-  return (
-    <div className={`team-row ${isWinner ? 'winner' : ''}`}>
-      <div className="team-info">
-        {team.logo && (
-          <img src={team.logo} alt={team.name} className="team-logo" />
-        )}
-        <div className="team-name-container">
-          {team.rank && team.rank <= 25 && (
-            <span className="team-rank">#{team.rank}</span>
+      <div className="ticker-matchup">
+        <span className="ticker-team">
+          {game.awayTeam.rank && game.awayTeam.rank <= 25 && (
+            <span className="ticker-rank">#{game.awayTeam.rank}</span>
           )}
-          <span className="team-name">{team.name}</span>
-          {isHome && <span className="home-indicator">(H)</span>}
-        </div>
-      </div>
-      {team.score !== undefined && (
-        <span className={`team-score ${isWinner ? 'winner' : ''}`}>
-          {team.score}
+          {game.awayTeam.abbreviation}
+          {(isLive || isFinal) && (
+            <span className="ticker-score">{game.awayTeam.score}</span>
+          )}
         </span>
-      )}
+
+        <span className="ticker-vs">@</span>
+
+        <span className="ticker-team">
+          {game.homeTeam.rank && game.homeTeam.rank <= 25 && (
+            <span className="ticker-rank">#{game.homeTeam.rank}</span>
+          )}
+          {game.homeTeam.abbreviation}
+          {(isLive || isFinal) && (
+            <span className="ticker-score">{game.homeTeam.score}</span>
+          )}
+        </span>
+      </div>
+
+      <span className="ticker-status">
+        {isLive && <span className="live-dot" />}
+        {isLive ? game.statusDetail : isFinal ? 'Final' : formatGameTime(game.startTime)}
+      </span>
+
+      <span className="ticker-divider">|</span>
     </div>
   );
 }
