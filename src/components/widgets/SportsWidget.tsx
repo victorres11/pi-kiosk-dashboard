@@ -2,12 +2,13 @@ import { Trophy } from 'lucide-react';
 import { format, isToday, isTomorrow } from 'date-fns';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { fetchSportsData } from '../../utils/api';
+import type { SportsDataWithGolf, GolfTournament } from '../../utils/api';
 import { config } from '../../config/dashboard.config';
-import type { SportsData, Game } from '../../types';
+import type { Game } from '../../types';
 import './SportsWidget.css';
 
 export function SportsWidget() {
-  const { data, loading, error } = useDataFetcher<SportsData>({
+  const { data, loading, error } = useDataFetcher<SportsDataWithGolf>({
     fetchFn: fetchSportsData,
     refreshInterval: config.refreshIntervals.sports,
     enabled: config.widgets.sports,
@@ -16,12 +17,13 @@ export function SportsWidget() {
   if (!config.widgets.sports) return null;
 
   const allGames = data?.games || [];
+  const golf = data?.golf;
 
   return (
     <div className="sports-ticker-wrapper">
       <div className="ticker-label">
         <Trophy size={16} />
-        <span>COLLEGE SPORTS</span>
+        <span>SPORTS</span>
       </div>
 
       {loading && allGames.length === 0 && (
@@ -32,20 +34,63 @@ export function SportsWidget() {
         <div className="ticker-error">Unable to load scores</div>
       )}
 
-      {allGames.length > 0 && (
+      {(allGames.length > 0 || golf) && (
         <div className="ticker-track">
           <div className="ticker-content">
             {/* Duplicate content for seamless loop */}
-            {[...allGames, ...allGames].map((game, idx) => (
-              <GameTicker key={`${game.id}-${idx}`} game={game} />
+            {[1, 2].map((loop) => (
+              <div key={loop} className="ticker-loop">
+                {/* Golf tournament first if available */}
+                {golf && <GolfTicker golf={golf} />}
+
+                {/* Game scores */}
+                {allGames.map((game, idx) => (
+                  <GameTicker key={`${game.id}-${loop}-${idx}`} game={game} />
+                ))}
+              </div>
             ))}
           </div>
         </div>
       )}
 
-      {!loading && !error && allGames.length === 0 && (
+      {!loading && !error && allGames.length === 0 && !golf && (
         <div className="ticker-empty">No games scheduled</div>
       )}
+    </div>
+  );
+}
+
+function GolfTicker({ golf }: { golf: GolfTournament }) {
+  const isLive = golf.status === 'in_progress';
+  const isFinal = golf.status === 'final';
+
+  return (
+    <div className={`ticker-game ticker-golf ${isLive ? 'live' : ''}`}>
+      <span className="ticker-league">PGA</span>
+
+      <div className="ticker-golf-content">
+        <span className="ticker-tournament">{golf.name}</span>
+
+        {golf.leaders.length > 0 && (
+          <div className="ticker-leaders">
+            {golf.leaders.slice(0, 3).map((leader, idx) => (
+              <span key={leader.id} className="ticker-leader">
+                <span className="leader-pos">{leader.position}</span>
+                <span className="leader-name">{leader.name.split(' ').pop()}</span>
+                <span className="leader-score">{leader.score}</span>
+                {idx < 2 && <span className="leader-sep">•</span>}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <span className="ticker-status">
+        {isLive && <span className="live-dot" />}
+        {isFinal ? 'Final' : isLive ? 'Live' : 'Upcoming'}
+      </span>
+
+      <span className="ticker-divider">|</span>
     </div>
   );
 }

@@ -89,33 +89,65 @@ export async function fetchWeatherData(): Promise<WeatherData> {
 // ESPN API (unofficial, public endpoints)
 const ESPN_BASE = 'https://site.api.espn.com/apis/site/v2/sports';
 
-export async function fetchSportsData(): Promise<SportsData> {
+export interface GolfLeader {
+  id: string;
+  name: string;
+  position: string;
+  score: string;
+  thru: string;
+  isAmateur: boolean;
+}
+
+export interface GolfTournament {
+  id: string;
+  name: string;
+  status: 'scheduled' | 'in_progress' | 'final';
+  leaders: GolfLeader[];
+}
+
+export interface SportsDataWithGolf extends SportsData {
+  golf?: GolfTournament;
+}
+
+export async function fetchSportsData(): Promise<SportsDataWithGolf> {
   const games: Game[] = [];
+  let golf: GolfTournament | undefined;
+
+  try {
+    // Fetch NFL scoreboard
+    const nflResponse = await axios.get(
+      `${ESPN_BASE}/football/nfl/scoreboard`,
+      { params: { limit: 50 } }
+    );
+
+    const nflGames = parseESPNGames(nflResponse.data, 'football', 'NFL');
+    games.push(...nflGames);
+  } catch (err) {
+    console.warn('Failed to fetch NFL data:', err);
+  }
 
   try {
     // Fetch college football scoreboard
-    const footballResponse = await axios.get(
+    const cfbResponse = await axios.get(
       `${ESPN_BASE}/football/college-football/scoreboard`,
       { params: { limit: 50 } }
     );
 
-    const footballGames = parseESPNGames(footballResponse.data, 'football', 'NCAAF');
-    games.push(...footballGames);
+    const cfbGames = parseESPNGames(cfbResponse.data, 'football', 'CFB');
+    games.push(...cfbGames);
   } catch (err) {
     console.warn('Failed to fetch college football data:', err);
   }
 
   try {
-    // Fetch college basketball scoreboard
-    const basketballResponse = await axios.get(
-      `${ESPN_BASE}/basketball/mens-college-basketball/scoreboard`,
-      { params: { limit: 50 } }
+    // Fetch PGA golf leaderboard
+    const golfResponse = await axios.get(
+      'https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard'
     );
 
-    const basketballGames = parseESPNGames(basketballResponse.data, 'basketball', 'NCAAM');
-    games.push(...basketballGames);
+    golf = parseESPNGolf(golfResponse.data);
   } catch (err) {
-    console.warn('Failed to fetch college basketball data:', err);
+    console.warn('Failed to fetch golf data:', err);
   }
 
   // Sort games: in-progress first, then by start time
@@ -126,8 +158,44 @@ export async function fetchSportsData(): Promise<SportsData> {
   });
 
   return {
-    games: games.slice(0, 10), // Limit to 10 most relevant games
+    games: games.slice(0, 15), // Limit to 15 most relevant games
+    golf,
     lastUpdated: new Date(),
+  };
+}
+
+function parseESPNGolf(data: any): GolfTournament | undefined {
+  if (!data.events || data.events.length === 0) return undefined;
+
+  // Get the most recent/current event
+  const event = data.events[0];
+  const competition = event.competitions?.[0];
+
+  if (!competition) return undefined;
+
+  const statusState = event.status?.type?.state || 'pre';
+  let status: GolfTournament['status'] = 'scheduled';
+  if (statusState === 'in') status = 'in_progress';
+  else if (statusState === 'post') status = 'final';
+
+  // Get top 5 leaders
+  const competitors = competition.competitors || [];
+  const leaders: GolfLeader[] = competitors
+    .slice(0, 5)
+    .map((c: any) => ({
+      id: c.athlete?.id || c.id,
+      name: c.athlete?.displayName || 'Unknown',
+      position: c.status?.position?.displayName || '-',
+      score: c.score?.displayValue || 'E',
+      thru: c.status?.thru === 18 ? 'F' : c.status?.displayThru || '-',
+      isAmateur: c.amateur || false,
+    }));
+
+  return {
+    id: event.id,
+    name: event.shortName || event.name,
+    status,
+    leaders,
   };
 }
 
