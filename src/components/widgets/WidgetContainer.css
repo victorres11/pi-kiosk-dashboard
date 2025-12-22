@@ -1,7 +1,7 @@
 .widget-container {
   background: linear-gradient(145deg, #1f2937 0%, #111827 100%);
-  border-radius: 16px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 0.75rem;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -1px rgba(0, 0, 0, 0.2),
@@ -35,8 +35,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(55, 65, 81, 0.5);
 }
 
@@ -53,7 +53,7 @@
 }
 
 .widget-title h3 {
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #9ca3af;
   margin: 0;
@@ -121,8 +121,8 @@
 }
 
 .widget-footer {
-  margin-top: 1rem;
-  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
   border-top: 1px solid rgba(55, 65, 81, 0.5);
 }
 

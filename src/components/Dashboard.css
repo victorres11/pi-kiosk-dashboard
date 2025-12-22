@@ -1,6 +1,7 @@
 .dashboard {
-  min-height: 100vh;
-  padding: 1.5rem;
+  height: 100vh;
+  overflow: hidden;
+  padding: 1rem;
   background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
   background-attachment: fixed;
 }
@@ -8,9 +9,10 @@
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: auto auto auto;
-  gap: 1.5rem;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
   max-width: 1920px;
+  height: 100%;
   margin: 0 auto;
 }
 
@@ -37,7 +39,8 @@
 
 /* Grid item base styles */
 .grid-item {
-  min-height: 200px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .grid-item > * {

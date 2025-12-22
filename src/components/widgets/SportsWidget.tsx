@@ -1,4 +1,5 @@
-import { Trophy, Clock, Radio } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Trophy, ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, isToday, isTomorrow } from 'date-fns';
 import { useDataFetcher } from '../../hooks/useDataFetcher';
 import { fetchSportsData } from '../../utils/api';
@@ -7,6 +8,8 @@ import { WidgetContainer } from './WidgetContainer';
 import type { SportsData, Game } from '../../types';
 import './SportsWidget.css';
 
+const TICKER_INTERVAL = 5000; // 5 seconds per game
+
 export function SportsWidget() {
   const { data, loading, error, lastUpdated } = useDataFetcher<SportsData>({
     fetchFn: fetchSportsData,
@@ -14,60 +17,79 @@ export function SportsWidget() {
     enabled: config.widgets.sports,
   });
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const allGames = data?.games || [];
+
+  // Auto-rotate through games
+  useEffect(() => {
+    if (allGames.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % allGames.length);
+    }, TICKER_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [allGames.length]);
+
+  // Reset index when data changes
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [data]);
+
   if (!config.widgets.sports) return null;
 
-  const liveGames = data?.games.filter((g) => g.status === 'in_progress') || [];
-  const upcomingGames = data?.games.filter((g) => g.status === 'scheduled') || [];
-  const recentGames = data?.games.filter((g) => g.status === 'final') || [];
+  const currentGame = allGames[currentIndex];
 
   return (
     <WidgetContainer
       title="College Sports"
-      icon={<Trophy size={24} />}
+      icon={<Trophy size={20} />}
       loading={loading}
       error={error}
       lastUpdated={lastUpdated}
       className="sports-widget"
     >
-      {data && (
-        <div className="sports-content">
-          {liveGames.length > 0 && (
-            <div className="games-section">
-              <h4 className="section-title live">
-                <Radio size={16} className="pulse" /> Live Now
-              </h4>
-              {liveGames.map((game) => (
-                <GameCard key={game.id} game={game} />
-              ))}
-            </div>
-          )}
+      {data && allGames.length > 0 && currentGame && (
+        <div className="sports-ticker">
+          <div className="ticker-nav">
+            <button
+              className="ticker-btn"
+              onClick={() => setCurrentIndex((prev) => (prev - 1 + allGames.length) % allGames.length)}
+              aria-label="Previous game"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <span className="ticker-counter">
+              {currentIndex + 1} / {allGames.length}
+            </span>
+            <button
+              className="ticker-btn"
+              onClick={() => setCurrentIndex((prev) => (prev + 1) % allGames.length)}
+              aria-label="Next game"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
 
-          {upcomingGames.length > 0 && (
-            <div className="games-section">
-              <h4 className="section-title">
-                <Clock size={16} /> Upcoming
-              </h4>
-              {upcomingGames.slice(0, 4).map((game) => (
-                <GameCard key={game.id} game={game} />
-              ))}
-            </div>
-          )}
+          <GameCard key={currentGame.id} game={currentGame} />
 
-          {recentGames.length > 0 && liveGames.length === 0 && upcomingGames.length < 3 && (
-            <div className="games-section">
-              <h4 className="section-title">Recent Results</h4>
-              {recentGames.slice(0, 3).map((game) => (
-                <GameCard key={game.id} game={game} />
-              ))}
-            </div>
-          )}
+          <div className="ticker-dots">
+            {allGames.map((_, idx) => (
+              <button
+                key={idx}
+                className={`ticker-dot ${idx === currentIndex ? 'active' : ''}`}
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`Go to game ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
-          {data.games.length === 0 && (
-            <div className="no-games">
-              <p>No games scheduled right now.</p>
-              <p className="no-games-sub">Check back during football or basketball season!</p>
-            </div>
-          )}
+      {data && allGames.length === 0 && (
+        <div className="no-games">
+          <p>No games scheduled</p>
         </div>
       )}
     </WidgetContainer>
