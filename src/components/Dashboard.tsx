@@ -46,6 +46,13 @@ export function Dashboard() {
           <SportsWidget />
         </div>
       </div>
+
+      {/* Watermark logo */}
+      <img
+        src="/vtSportSolutions.png"
+        alt=""
+        className="watermark-logo"
+      />
     </div>
   );
 }
