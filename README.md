@@ -1,251 +1,268 @@
 # Pi Kiosk Dashboard
 
-A React-based dashboard for Raspberry Pi kiosk displays. Shows real-time weather, college sports scores, time, and customizable widgets.
+A React-based kiosk dashboard designed for Raspberry Pi displays. Features live sports scores, weather, news, crypto prices, and more with a glassmorphic dark theme optimized for 24/7 display.
 
 ## Features
 
-- **Weather Widget** - Current conditions, feels like, 5-day forecast with temperature chart
-- **Sports Widget** - Live college football and basketball scores from ESPN
+### Widgets
 - **Clock Widget** - Large, readable time and date display
-- **News Widget** - Placeholder for news headlines (customizable)
-- **Calendar Widget** - Placeholder for calendar events (customizable)
+- **Weather Widget** - Current conditions, hourly/daily forecast with temperature chart
+- **Crypto Widget** - Live prices for BTC, ETH, XRP, FARTCOIN (rotates with weather)
+- **49ers Countdown** - Next game countdown with live scores during games
+- **News Widget** - Rotating sports news from ESPN (NFL, CFB, NBA)
+- **CFP Bracket Widget** - College Football Playoff bracket standings
+- **Sports Ticker** - Scrolling NFL and college football scores
+- **Message Banner** - Customizable announcement banner
 
-### Design Features
+### Special Features
+- **Screen Takeover** - Every 2 minutes, displays full-screen content:
+  - Inspirational quotes
+  - Random GIFs
+  - "Did You Know?" facts
+  - "This Day in History" events
+  - Jim Harbaugh moments
+- **Live Game Updates** - 49ers widget shows real-time scores during games
+- **Auto-refresh** - All widgets refresh at configurable intervals
+- **Error Resilience** - Falls back to last good data on API failures
 
-- Dark theme optimized for 24/7 display
-- Large fonts readable from 6-10 feet away
-- Responsive grid layout for various screen sizes
-- Smooth animations on data updates
-- Auto-refresh with configurable intervals
-- Error handling with fallback to last good data
-- "Last updated" timestamps on all widgets
+## Tech Stack
+
+- React 18 + TypeScript
+- Vite
+- Recharts (weather charts)
+- Axios (API calls)
+- Lucide React (icons)
+- CSS with glassmorphic dark theme
 
 ## Quick Start
 
-### 1. Clone and Install
-
 ```bash
-git clone <your-repo-url>
-cd pi-kiosk-dashboard
+# Install dependencies
 npm install
-```
 
-### 2. Configure API Keys
-
-Copy the example environment file and add your API keys:
-
-```bash
+# Create environment file
 cp .env.example .env
+# Edit .env with your API keys
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-Edit `.env` with your settings:
+## Environment Variables
+
+Create a `.env` file in the root directory:
 
 ```env
-# Required: Get your free API key at https://openweathermap.org/api
+# Required: OpenWeatherMap API Key
+# Get free at https://openweathermap.org/api
 VITE_OPENWEATHER_API_KEY=your_api_key_here
 
-# Optional: Customize location (defaults to Scottsdale, AZ)
+# Location settings
 VITE_WEATHER_CITY=Scottsdale
 VITE_WEATHER_STATE=AZ
 VITE_WEATHER_COUNTRY=US
 
-# Optional: Refresh intervals in minutes
+# Refresh intervals (in minutes, except where noted)
 VITE_WEATHER_REFRESH_INTERVAL=10
 VITE_SPORTS_REFRESH_INTERVAL=5
+VITE_NEWS_REFRESH_INTERVAL=15
+VITE_CRYPTO_REFRESH_INTERVAL=2
 
-# Optional: Show/hide widgets
+# Widget visibility (true/false)
 VITE_SHOW_WEATHER=true
 VITE_SHOW_SPORTS=true
 VITE_SHOW_CLOCK=true
 VITE_SHOW_NEWS=true
 VITE_SHOW_CALENDAR=true
+VITE_SHOW_NETWORK=false
+
+# Network monitoring (optional, requires backend server)
+VITE_NETWORK_API_URL=http://localhost:3001
+VITE_NETWORK_REFRESH_INTERVAL=10
+VITE_NETWORK_TOP_DEVICES=5
 ```
 
-### 3. Run Development Server
+## Project Structure
 
-```bash
-npm run dev
+```
+pi-kiosk-dashboard/
+├── src/
+│   ├── components/
+│   │   ├── widgets/              # All dashboard widgets
+│   │   │   ├── ClockWidget.tsx
+│   │   │   ├── WeatherWidget.tsx
+│   │   │   ├── CryptoWidget.tsx
+│   │   │   ├── WeatherCryptoWidget.tsx   # Rotates between weather/crypto
+│   │   │   ├── CountdownWidget.tsx       # 49ers countdown + live scores
+│   │   │   ├── NewsWidget.tsx
+│   │   │   ├── SportsWidget.tsx          # Scrolling ticker
+│   │   │   ├── CFPBracketWidget.tsx
+│   │   │   ├── NetworkWidget.tsx         # Hidden, for future use
+│   │   │   ├── MessageBanner.tsx
+│   │   │   └── WidgetContainer.tsx       # Base wrapper component
+│   │   ├── Dashboard.tsx         # Main layout
+│   │   ├── Dashboard.css         # Grid layout styles
+│   │   ├── ScreenTakeover.tsx    # Full-screen takeover feature
+│   │   └── ScreenTakeover.css
+│   ├── hooks/
+│   │   └── useDataFetcher.ts     # Generic data fetching hook with polling
+│   ├── utils/
+│   │   └── api.ts                # API functions (weather, sports, crypto)
+│   ├── config/
+│   │   └── dashboard.config.ts   # Centralized configuration
+│   ├── types/
+│   │   └── index.ts              # TypeScript interfaces
+│   └── assets/                   # Images and logos
+├── backend/                      # Network monitoring server (optional)
+│   ├── server.js
+│   └── package.json
+└── public/
 ```
 
-Open http://localhost:3000 to see the dashboard.
+## APIs Used
 
-### 4. Build for Production
+| API | Purpose | Auth Required |
+|-----|---------|---------------|
+| [OpenWeatherMap](https://openweathermap.org/api) | Weather data | Yes (free tier: 1,000 calls/day) |
+| ESPN | Sports scores, news, 49ers live data | No |
+| [CoinGecko](https://www.coingecko.com/en/api) | Crypto prices | No |
+| [Giphy](https://developers.giphy.com/) | GIFs for screen takeover | No (public beta key) |
 
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub
+2. Connect repo to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically on push
+
+### Raspberry Pi Kiosk Setup
+
+The Pi runs Chromium in kiosk mode pointing to your Vercel URL.
+
+**Example kiosk script** (`/home/pi/kiosk.sh`):
 ```bash
-npm run build
-npm run preview  # Test production build locally
-```
-
-## Raspberry Pi Setup
-
-### Prerequisites
-
-- Raspberry Pi 5 (or 4) with Raspberry Pi OS
-- Display connected via HDMI
-- Network connection (WiFi or Ethernet)
-
-### Automated Setup
-
-Copy the project to your Pi, then run:
-
-```bash
-cd pi-kiosk-dashboard
-chmod +x scripts/setup-kiosk.sh
-./scripts/setup-kiosk.sh
-```
-
-This will:
-- Install required packages (Chromium, unclutter, etc.)
-- Configure auto-start kiosk mode
-- Set up a systemd service for the web server
-
-### Manual Setup
-
-1. **Build the dashboard on your Pi:**
-   ```bash
-   npm install
-   npm run build
-   ```
-
-2. **Install a simple HTTP server:**
-   ```bash
-   npm install -g serve
-   ```
-
-3. **Start the server:**
-   ```bash
-   serve -s dist -l 8080
-   ```
-
-4. **Configure Chromium kiosk mode:**
-   Add to `~/.config/openbox/autostart` or equivalent:
-   ```bash
-   chromium-browser --kiosk --noerrdialogs http://localhost:8080
-   ```
-
-### Disable Screen Blanking
-
-Add to your autostart script:
-```bash
-xset s off
+#!/bin/bash
+# Disable screen blanking
 xset s noblank
+xset s off
 xset -dpms
+
+# Hide cursor
+unclutter -idle 0.5 -root &
+
+# Launch Chromium in kiosk mode
+chromium-browser \
+  --noerrdialogs \
+  --disable-infobars \
+  --kiosk \
+  https://your-app.vercel.app
 ```
 
-## Configuration
-
-### Refresh Intervals
-
-Configure in `.env` or `src/config/dashboard.config.ts`:
-
-| Widget | Default | Environment Variable |
-|--------|---------|---------------------|
-| Weather | 10 min | `VITE_WEATHER_REFRESH_INTERVAL` |
-| Sports | 5 min | `VITE_SPORTS_REFRESH_INTERVAL` |
-| News | 15 min | `VITE_NEWS_REFRESH_INTERVAL` |
-| Clock | 1 sec | (not configurable) |
-
-### Widget Visibility
-
-Toggle widgets on/off via environment variables:
-
-```env
-VITE_SHOW_WEATHER=true
-VITE_SHOW_SPORTS=true
-VITE_SHOW_CLOCK=true
-VITE_SHOW_NEWS=false  # Hide news widget
-VITE_SHOW_CALENDAR=false  # Hide calendar widget
+**Auto-start on boot** - Add to `~/.config/lxsession/LXDE-pi/autostart`:
+```
+@bash /home/pi/kiosk.sh
 ```
 
-### Customize Sports Teams
+## Network Monitoring (Future Feature)
 
-Edit `src/config/dashboard.config.ts` to follow specific teams:
+The dashboard includes a Network Bandwidth Widget that's currently hidden. It requires a backend server on your Pi and router-level access for accurate per-device monitoring.
 
+### Backend Setup (on Raspberry Pi)
+
+```bash
+# Install vnStat for bandwidth monitoring
+sudo apt update
+sudo apt install vnstat -y
+sudo systemctl start vnstat
+
+# Install Node.js
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Clone repo and run backend
+git clone https://github.com/YOUR_USERNAME/pi-kiosk-dashboard.git
+cd pi-kiosk-dashboard/backend
+npm install
+npm start
+
+# For production, use PM2
+sudo npm install -g pm2
+pm2 start server.js --name network-monitor
+pm2 startup
+pm2 save
+```
+
+**Note:** The Pi can only monitor traffic on its own interface. For full network monitoring, you'd need router-level access (UniFi, pfSense, etc.) or the Pi acting as a network gateway.
+
+## Customization
+
+### Changing the 49ers to Another Team
+
+Edit `src/components/widgets/CountdownWidget.tsx`:
+- Update `teamLogos` object with your team's ESPN logo URL
+- Update `fallbackSchedule` with your team's games
+- Change the ESPN team ID in `fetchLiveGameData()`
+
+### Changing Crypto Coins
+
+Edit `src/config/dashboard.config.ts`:
 ```typescript
-sportsTeams: {
-  collegefootball: [
-    { id: '333', name: 'Alabama' },
-    { id: '251', name: 'Arizona State' },
-    // Add your teams...
-  ],
-  collegebasketball: [
-    { id: '12', name: 'Arizona' },
-    // Add your teams...
+crypto: {
+  coins: [
+    { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
+    { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
+    // Add/remove coins (use CoinGecko IDs)
   ],
 }
 ```
 
-Find team IDs at ESPN's website URLs (e.g., `/team/_/id/333/alabama-crimson-tide`).
+### Adding Screen Takeover Content
 
-## Customizing Placeholder Widgets
+Edit `src/components/ScreenTakeover.tsx`:
+- `quotes` array - Inspirational quotes
+- `didYouKnowFacts` array - Fun facts
+- `thisDayInHistory` object - Historical events by date
+- `harbaughQuotes` array - Jim Harbaugh quotes
 
-### News Widget
+### Adding a New Widget
 
-Edit `src/components/widgets/NewsWidget.tsx` to integrate your preferred news source:
-
-- [NewsAPI](https://newsapi.org/) - Free tier available
-- RSS feeds - Use a library like `rss-parser`
-- Custom API endpoints
-
-### Calendar Widget
-
-Edit `src/components/widgets/CalendarWidget.tsx` to integrate:
-
-- [Google Calendar API](https://developers.google.com/calendar)
-- [Microsoft Graph API](https://docs.microsoft.com/en-us/graph/outlook-calendar-concept-overview)
-- iCal feeds
-
-## API Information
-
-### OpenWeatherMap (Required for Weather)
-
-1. Sign up at [openweathermap.org](https://openweathermap.org/api)
-2. Get your free API key from the dashboard
-3. Free tier: 1,000 calls/day (plenty for 10-minute refreshes)
-
-### ESPN API (No key required)
-
-The sports widget uses ESPN's public scoreboard endpoints. No API key needed, but be mindful of rate limits.
-
-## Troubleshooting
-
-### Weather not loading
-- Verify your API key in `.env`
-- Check the browser console for errors
-- Ensure you've waited a few minutes after creating your API key (activation delay)
-
-### Sports scores not showing
-- Scores only appear during active game days
-- Off-season will show "No games scheduled"
-
-### Dashboard not auto-starting on Pi
-- Check that the systemd service is enabled: `sudo systemctl status pi-kiosk-dashboard`
-- Verify Chromium is installed: `which chromium-browser`
-- Check autostart permissions: `ls -la ~/.config/openbox/autostart`
-
-### Screen going blank
-- Ensure screen blanking is disabled (see setup script)
-- Check power management settings in Raspberry Pi Configuration
+1. Create `src/components/widgets/YourWidget.tsx`
+2. Create `src/components/widgets/YourWidget.css`
+3. Export from `src/components/widgets/index.ts`
+4. Add to `Dashboard.tsx` layout
+5. Add grid area in `Dashboard.css`
 
 ## Development
 
 ```bash
-npm run dev      # Start development server
+npm run dev      # Start development server (http://localhost:5173)
 npm run build    # Build for production
 npm run preview  # Preview production build
 npm run lint     # Run ESLint
 ```
 
-## Tech Stack
+## Troubleshooting
 
-- **React 18** - UI framework
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Recharts** - Temperature chart
-- **date-fns** - Date formatting
-- **Axios** - API requests
-- **Lucide React** - Icons
+### Weather not loading
+- Verify your `VITE_OPENWEATHER_API_KEY` in `.env`
+- New API keys take a few minutes to activate
+- Check browser console for errors
+
+### 49ers scores showing 0-0 during live game
+- The widget uses ESPN's scoreboard API which updates every 30 seconds
+- If issues persist, check browser console for API errors
+
+### Screen takeover shows blank
+- Usually a Giphy API rate limit; it falls back to quotes automatically
+
+### Crypto prices not loading
+- CoinGecko has rate limits; the widget retries automatically
 
 ## License
 
-MIT License - Feel free to customize and use for your own kiosk projects!
+MIT License - Feel free to customize for your own kiosk projects!
