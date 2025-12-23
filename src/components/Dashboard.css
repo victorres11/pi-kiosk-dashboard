@@ -190,12 +190,11 @@
   position: fixed;
   bottom: 0.75rem;
   right: 0.75rem;
-  height: 32px;
+  height: 40px;
   width: auto;
-  opacity: 0.25;
+  opacity: 0.4;
   pointer-events: none;
-  z-index: 10;
-  filter: grayscale(100%) brightness(2);
+  z-index: 100;
 }
 
 @media (min-width: 1400px) {
