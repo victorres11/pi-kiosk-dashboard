@@ -15,6 +15,13 @@ export function Dashboard() {
   return (
     <div className="dashboard">
       <ScreenTakeover />
+
+      {/* Glassmorphic logo badge */}
+      <div className="logo-badge">
+        <img src={logoImg} alt="" className="logo-icon" />
+        <span className="logo-text">VT Sport Solutions</span>
+      </div>
+
       <div className="dashboard-grid">
         {/* Message banner at top */}
         <div className="grid-item message-area">
@@ -27,9 +34,6 @@ export function Dashboard() {
         </div>
         <div className="grid-item countdown-area">
           <CountdownWidget />
-          <div className="logo-badge">
-            <img src={logoImg} alt="VT Sport Solutions" />
-          </div>
         </div>
 
         {/* Middle row: Main widgets */}
