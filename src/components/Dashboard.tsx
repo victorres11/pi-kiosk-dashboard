@@ -18,8 +18,7 @@ export function Dashboard() {
 
       {/* Glassmorphic logo badge */}
       <div className="logo-badge">
-        <img src={logoImg} alt="" className="logo-icon" />
-        <span className="logo-text">VT Sport Solutions</span>
+        <img src={logoImg} alt="VT Sport Solutions" className="logo-icon" />
       </div>
 
       <div className="dashboard-grid">
