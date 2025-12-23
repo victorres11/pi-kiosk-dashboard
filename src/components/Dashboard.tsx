@@ -27,6 +27,9 @@ export function Dashboard() {
         </div>
         <div className="grid-item countdown-area">
           <CountdownWidget />
+          <div className="logo-badge">
+            <img src={logoImg} alt="VT Sport Solutions" />
+          </div>
         </div>
 
         {/* Middle row: Main widgets */}
@@ -46,11 +49,6 @@ export function Dashboard() {
         <div className="grid-item sports-area">
           <SportsWidget />
         </div>
-      </div>
-
-      {/* Logo badge */}
-      <div className="logo-badge">
-        <img src={logoImg} alt="VT Sport Solutions" />
       </div>
     </div>
   );

@@ -51,6 +51,7 @@
 .countdown-area {
   grid-column: span 6;
   grid-row: 2;
+  position: relative;
 }
 
 .weather-area {
@@ -185,43 +186,42 @@
   }
 }
 
-/* Logo badge - floating corner badge */
+/* Logo badge - positioned in countdown widget */
 .logo-badge {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
-  z-index: 100;
+  z-index: 10;
   background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-  padding: 0.5rem 1rem 0.75rem 1.25rem;
-  border-radius: 0 0 0 16px;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0 12px 0 10px;
   box-shadow:
-    -2px 2px 8px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .logo-badge img {
-  height: 28px;
+  height: 20px;
   width: auto;
   display: block;
 }
 
 @media (min-width: 1400px) {
   .logo-badge {
-    padding: 0.6rem 1.25rem 0.85rem 1.5rem;
+    padding: 0.4rem 0.7rem;
   }
 
   .logo-badge img {
-    height: 32px;
+    height: 24px;
   }
 }
 
 @media (min-width: 1920px) {
   .logo-badge {
-    padding: 0.75rem 1.5rem 1rem 1.75rem;
-    border-radius: 0 0 0 20px;
+    padding: 0.5rem 0.85rem;
   }
 
   .logo-badge img {
-    height: 40px;
+    height: 28px;
   }
 }
