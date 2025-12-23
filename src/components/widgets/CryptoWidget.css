@@ -1,0 +1,81 @@
+.crypto-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.crypto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.crypto-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(55, 65, 81, 0.3);
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.crypto-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.crypto-symbol {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f3f4f6;
+}
+
+.crypto-name {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.crypto-price {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #f3f4f6;
+  line-height: 1.2;
+}
+
+.crypto-change {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.crypto-change.positive {
+  color: #10b981;
+}
+
+.crypto-change.negative {
+  color: #ef4444;
+}
+
+.crypto-market-cap {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive adjustments for large displays */
+@media (min-width: 1200px) {
+  .crypto-price {
+    font-size: 2.5rem;
+  }
+
+  .crypto-symbol {
+    font-size: 1.5rem;
+  }
+
+  .crypto-change {
+    font-size: 1.125rem;
+  }
+}

@@ -1,4 +1,6 @@
 export { WeatherWidget } from './WeatherWidget';
+export { CryptoWidget } from './CryptoWidget';
+export { WeatherCryptoWidget } from './WeatherCryptoWidget';
 export { SportsWidget } from './SportsWidget';
 export { ClockWidget } from './ClockWidget';
 export { NewsWidget } from './NewsWidget';

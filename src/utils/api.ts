@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { config } from '../config/dashboard.config';
-import type { WeatherData, SportsData, Game } from '../types';
+import type { WeatherData, SportsData, Game, CryptoData, CryptoPrice } from '../types';
 
 // OpenWeatherMap API
 const OPENWEATHER_BASE = 'https://api.openweathermap.org/data/2.5';
@@ -244,4 +244,42 @@ function parseESPNGames(data: any, sport: 'football' | 'basketball', league: str
 // Weather icon mapping to weather condition
 export function getWeatherIconUrl(iconCode: string): string {
   return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+}
+
+// CoinGecko API for crypto prices (free, no API key required)
+const COINGECKO_BASE = 'https://api.coingecko.com/api/v3';
+
+export async function fetchCryptoData(): Promise<CryptoData> {
+  const cryptoIds = config.crypto.coins.map(c => c.id).join(',');
+
+  const response = await axios.get(`${COINGECKO_BASE}/coins/markets`, {
+    params: {
+      vs_currency: 'usd',
+      ids: cryptoIds,
+      order: 'market_cap_desc',
+      sparkline: false,
+      price_change_percentage: '24h',
+    },
+  });
+
+  const prices: CryptoPrice[] = response.data.map((coin: any) => ({
+    id: coin.id,
+    symbol: coin.symbol.toUpperCase(),
+    name: coin.name,
+    price: coin.current_price,
+    change24h: coin.price_change_24h,
+    changePercent24h: coin.price_change_percentage_24h,
+    marketCap: coin.market_cap,
+    volume24h: coin.total_volume,
+  }));
+
+  // Sort to match the order in config
+  const orderedPrices = config.crypto.coins
+    .map(c => prices.find(p => p.id === c.id))
+    .filter((p): p is CryptoPrice => p !== undefined);
+
+  return {
+    prices: orderedPrices,
+    lastUpdated: new Date(),
+  };
 }

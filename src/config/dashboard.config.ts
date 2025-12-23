@@ -18,7 +18,19 @@ export const config = {
     weather: (parseInt(import.meta.env.VITE_WEATHER_REFRESH_INTERVAL || '10') * 60 * 1000),
     sports: (parseInt(import.meta.env.VITE_SPORTS_REFRESH_INTERVAL || '5') * 60 * 1000),
     news: (parseInt(import.meta.env.VITE_NEWS_REFRESH_INTERVAL || '15') * 60 * 1000),
+    crypto: (parseInt(import.meta.env.VITE_CRYPTO_REFRESH_INTERVAL || '2') * 60 * 1000),
     clock: 1000, // Update clock every second
+  },
+
+  // Crypto settings
+  crypto: {
+    coins: [
+      { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin' },
+      { id: 'ethereum', symbol: 'ETH', name: 'Ethereum' },
+      { id: 'ripple', symbol: 'XRP', name: 'XRP' },
+      { id: 'fartcoin', symbol: 'FARTCOIN', name: 'Fartcoin' },
+    ],
+    rotationInterval: 10000, // Rotate between weather and crypto every 10 seconds
   },
 
   // Widget visibility

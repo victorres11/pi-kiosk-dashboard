@@ -85,3 +85,20 @@ export interface CalendarEvent {
   endTime?: Date;
   allDay: boolean;
 }
+
+// Crypto Types
+export interface CryptoPrice {
+  id: string;
+  symbol: string;
+  name: string;
+  price: number;
+  change24h: number;
+  changePercent24h: number;
+  marketCap: number;
+  volume24h: number;
+}
+
+export interface CryptoData {
+  prices: CryptoPrice[];
+  lastUpdated: Date;
+}

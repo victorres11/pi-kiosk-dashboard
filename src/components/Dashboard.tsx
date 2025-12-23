@@ -1,5 +1,5 @@
 import {
-  WeatherWidget,
+  WeatherCryptoWidget,
   SportsWidget,
   ClockWidget,
   NewsWidget,
@@ -30,7 +30,7 @@ export function Dashboard() {
 
         {/* Middle row: Main widgets */}
         <div className="grid-item weather-area">
-          <WeatherWidget />
+          <WeatherCryptoWidget />
         </div>
 
         <div className="grid-item news-area">
