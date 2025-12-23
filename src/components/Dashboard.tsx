@@ -3,7 +3,7 @@ import {
   SportsWidget,
   ClockWidget,
   NewsWidget,
-  NetworkWidget,
+  CFPBracketWidget,
   MessageBanner,
   CountdownWidget,
 } from './widgets';
@@ -44,8 +44,8 @@ export function Dashboard() {
           <NewsWidget />
         </div>
 
-        <div className="grid-item network-area">
-          <NetworkWidget />
+        <div className="grid-item bracket-area">
+          <CFPBracketWidget />
         </div>
 
         {/* Bottom: Sports ticker full width */}
