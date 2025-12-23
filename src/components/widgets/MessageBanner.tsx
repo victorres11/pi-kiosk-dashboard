@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './MessageBanner.css';
-import logoImg from '../../assets/vtSportSolutions.png';
 
 interface Message {
   id: string;
@@ -41,7 +40,6 @@ export function MessageBanner() {
       <div className="message-content">
         <span className="message-text">{currentMessage.text}</span>
       </div>
-      <img src={logoImg} alt="VT Sport Solutions" className="banner-logo" />
     </div>
   );
 }

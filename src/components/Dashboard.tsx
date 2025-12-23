@@ -8,6 +8,7 @@ import {
   CountdownWidget,
 } from './widgets';
 import { ScreenTakeover } from './ScreenTakeover';
+import logoImg from '../assets/vtSportSolutions.png';
 import './Dashboard.css';
 
 export function Dashboard() {
@@ -45,6 +46,11 @@ export function Dashboard() {
         <div className="grid-item sports-area">
           <SportsWidget />
         </div>
+      </div>
+
+      {/* Logo badge */}
+      <div className="logo-badge">
+        <img src={logoImg} alt="VT Sport Solutions" />
       </div>
     </div>
   );
