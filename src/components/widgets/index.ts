@@ -8,4 +8,5 @@ export { CalendarWidget } from './CalendarWidget';
 export { CFPBracketWidget } from './CFPBracketWidget';
 export { MessageBanner } from './MessageBanner';
 export { CountdownWidget } from './CountdownWidget';
+export { NetworkWidget } from './NetworkWidget';
 export { WidgetContainer } from './WidgetContainer';

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { config } from '../config/dashboard.config';
-import type { WeatherData, SportsData, Game, CryptoData, CryptoPrice } from '../types';
+import type { WeatherData, SportsData, Game, CryptoData, CryptoPrice, NetworkBandwidthData } from '../types';
 
 // OpenWeatherMap API
 const OPENWEATHER_BASE = 'https://api.openweathermap.org/data/2.5';
@@ -282,4 +282,10 @@ export async function fetchCryptoData(): Promise<CryptoData> {
     prices: orderedPrices,
     lastUpdated: new Date(),
   };
+}
+
+// Network Bandwidth API (local backend server)
+export async function fetchNetworkBandwidth(): Promise<NetworkBandwidthData> {
+  const response = await axios.get(`${config.network.apiUrl}/api/network/bandwidth`);
+  return response.data;
 }

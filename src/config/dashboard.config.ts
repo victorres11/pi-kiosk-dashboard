@@ -19,6 +19,7 @@ export const config = {
     sports: (parseInt(import.meta.env.VITE_SPORTS_REFRESH_INTERVAL || '5') * 60 * 1000),
     news: (parseInt(import.meta.env.VITE_NEWS_REFRESH_INTERVAL || '15') * 60 * 1000),
     crypto: (parseInt(import.meta.env.VITE_CRYPTO_REFRESH_INTERVAL || '2') * 60 * 1000),
+    network: (parseInt(import.meta.env.VITE_NETWORK_REFRESH_INTERVAL || '10') * 1000), // 10 seconds default
     clock: 1000, // Update clock every second
   },
 
@@ -40,6 +41,13 @@ export const config = {
     clock: import.meta.env.VITE_SHOW_CLOCK !== 'false',
     news: import.meta.env.VITE_SHOW_NEWS !== 'false',
     calendar: import.meta.env.VITE_SHOW_CALENDAR !== 'false',
+    network: import.meta.env.VITE_SHOW_NETWORK !== 'false',
+  },
+
+  // Network monitoring settings
+  network: {
+    apiUrl: import.meta.env.VITE_NETWORK_API_URL || 'http://localhost:3001',
+    showTopDevices: parseInt(import.meta.env.VITE_NETWORK_TOP_DEVICES || '5'),
   },
 
   // Sports teams to follow (ESPN team IDs)

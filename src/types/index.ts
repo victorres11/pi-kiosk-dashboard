@@ -102,3 +102,30 @@ export interface CryptoData {
   prices: CryptoPrice[];
   lastUpdated: Date;
 }
+
+// Network Bandwidth Types
+export interface NetworkDevice {
+  ip: string;
+  hostname: string | null;
+  mac: string;
+  download: number;
+  upload: number;
+}
+
+export interface NetworkBandwidthData {
+  timestamp: string;
+  interface: string;
+  currentRates: {
+    download: number;
+    upload: number;
+  };
+  today: {
+    download: number;
+    upload: number;
+  };
+  month: {
+    download: number;
+    upload: number;
+  };
+  topDevices: NetworkDevice[];
+}
