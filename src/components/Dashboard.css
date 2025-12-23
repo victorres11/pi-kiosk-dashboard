@@ -188,13 +188,13 @@
 /* Watermark logo */
 .watermark-logo {
   position: fixed;
-  bottom: 0.75rem;
+  bottom: 60px;
   right: 0.75rem;
-  height: 40px;
+  height: 60px;
   width: auto;
-  opacity: 0.4;
+  opacity: 1;
   pointer-events: none;
-  z-index: 100;
+  z-index: 9999;
 }
 
 @media (min-width: 1400px) {
