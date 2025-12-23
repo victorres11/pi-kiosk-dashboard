@@ -191,14 +191,14 @@
   position: absolute;
   bottom: 2rem;
   right: 2rem;
-  height: 80px;
+  height: 320px;
   width: auto;
   opacity: 0.7;
 }
 
 @media (min-width: 1400px) {
   .takeover-logo {
-    height: 100px;
+    height: 400px;
     bottom: 2.5rem;
     right: 2.5rem;
   }
@@ -206,7 +206,7 @@
 
 @media (min-width: 1920px) {
   .takeover-logo {
-    height: 120px;
+    height: 480px;
     bottom: 3rem;
     right: 3rem;
   }

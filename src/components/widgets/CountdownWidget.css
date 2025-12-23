@@ -152,6 +152,100 @@
   margin-top: 0.1rem;
 }
 
+/* Live game styles */
+.countdown-widget.live {
+  background: linear-gradient(135deg, rgba(170, 0, 0, 0.35) 0%, rgba(180, 151, 90, 0.25) 100%);
+  border-color: rgba(170, 0, 0, 0.6);
+}
+
+.countdown-widget.final {
+  background: linear-gradient(135deg, rgba(100, 100, 100, 0.25) 0%, rgba(180, 151, 90, 0.15) 100%);
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(220, 38, 38, 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(220, 38, 38, 0.5);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #dc2626;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+
+.live-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #dc2626;
+  letter-spacing: 0.1em;
+}
+
+.final-indicator {
+  background: rgba(107, 114, 128, 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(107, 114, 128, 0.5);
+}
+
+.final-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.1em;
+}
+
+/* Team scores */
+.team-score {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #f3f4f6;
+  line-height: 1;
+}
+
+.team-score.winning {
+  color: #b4975a;
+  text-shadow: 0 0 8px rgba(180, 151, 90, 0.5);
+}
+
+/* Game status in vs block */
+.game-status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fbbf24;
+  text-align: center;
+}
+
+/* Possession indicator */
+.team-block.has-possession {
+  position: relative;
+}
+
+.team-block.has-possession::after {
+  content: '🏈';
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-size: 0.6rem;
+}
+
 /* Offseason state */
 .countdown-header {
   display: flex;
@@ -195,6 +289,14 @@
   .spread {
     font-size: 0.9rem;
   }
+
+  .team-score {
+    font-size: 1.75rem;
+  }
+
+  .game-status {
+    font-size: 0.85rem;
+  }
 }
 
 @media (min-width: 1920px) {
@@ -209,6 +311,24 @@
 
   .matchup-header {
     gap: 1.5rem;
+  }
+
+  .team-score {
+    font-size: 2rem;
+  }
+
+  .game-status {
+    font-size: 0.9rem;
+  }
+
+  .live-indicator,
+  .final-indicator {
+    padding: 0.25rem 0.75rem;
+  }
+
+  .live-text,
+  .final-text {
+    font-size: 0.8rem;
   }
 }
 
@@ -241,5 +361,28 @@
 
   .detail-item {
     font-size: 0.6rem;
+  }
+
+  .team-score {
+    font-size: 1.25rem;
+  }
+
+  .game-status {
+    font-size: 0.65rem;
+  }
+
+  .live-indicator,
+  .final-indicator {
+    padding: 0.15rem 0.5rem;
+  }
+
+  .live-text,
+  .final-text {
+    font-size: 0.6rem;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
   }
 }
