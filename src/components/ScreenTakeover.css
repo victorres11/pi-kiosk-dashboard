@@ -185,3 +185,29 @@
     font-size: 1.5rem;
   }
 }
+
+/* Logo watermark on takeover */
+.takeover-logo {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  height: 80px;
+  width: auto;
+  opacity: 0.7;
+}
+
+@media (min-width: 1400px) {
+  .takeover-logo {
+    height: 100px;
+    bottom: 2.5rem;
+    right: 2.5rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .takeover-logo {
+    height: 120px;
+    bottom: 3rem;
+    right: 3rem;
+  }
+}

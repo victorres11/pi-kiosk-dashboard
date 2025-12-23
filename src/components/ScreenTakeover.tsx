@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './ScreenTakeover.css';
+import logoLight from '../assets/vtSportsSolutions-light.png';
 
 type TakeoverType = 'quote' | 'gif' | 'did-you-know' | 'this-day' | 'harbaugh';
 
@@ -262,6 +263,9 @@ export function ScreenTakeover() {
           </div>
         )}
       </div>
+
+      {/* Logo watermark */}
+      <img src={logoLight} alt="VT Sport Solutions" className="takeover-logo" />
     </div>
   );
 }
