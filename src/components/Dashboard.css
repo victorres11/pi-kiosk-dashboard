@@ -185,7 +185,7 @@
   }
 }
 
-/* Glassmorphic logo badge */
+/* Logo badge */
 .logo-badge {
   position: fixed;
   top: 0.75rem;
@@ -195,12 +195,10 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f5f5dc;
+  border: 2px solid #d4af37;
   border-radius: 50px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .logo-badge .logo-icon {
