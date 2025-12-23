@@ -128,6 +128,8 @@ export function ScreenTakeover() {
       const types: TakeoverType[] = ['quote', 'gif', 'did-you-know', 'this-day', 'harbaugh'];
       const type = types[Math.floor(Math.random() * types.length)];
 
+      // Clear previous content to prevent stale renders
+      setContent(null);
       setTakeoverType(type);
 
       // Set content based on type
@@ -148,6 +150,10 @@ export function ScreenTakeover() {
                 url: randomGif.images.original.url,
                 title: randomGif.title,
               });
+            } else {
+              // Fallback to quote if no GIFs found
+              setTakeoverType('quote');
+              setContent(quotes[Math.floor(Math.random() * quotes.length)]);
             }
           } catch (err) {
             console.warn('Failed to fetch GIF:', err);
