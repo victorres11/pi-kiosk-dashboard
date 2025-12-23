@@ -190,11 +190,11 @@
   position: fixed;
   top: 0.75rem;
   left: 0.75rem;
-  z-index: 50;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem;
+  padding: 0.625rem;
   background: #f5f5dc;
   border: 2px solid #d4af37;
   border-radius: 50px;
@@ -202,7 +202,7 @@
 }
 
 .logo-badge .logo-icon {
-  height: 28px;
+  height: 35px;
   width: auto;
 }
 
@@ -210,11 +210,11 @@
   .logo-badge {
     top: 1rem;
     left: 1rem;
-    padding: 0.6rem;
+    padding: 0.75rem;
   }
 
   .logo-badge .logo-icon {
-    height: 34px;
+    height: 42px;
   }
 }
 
@@ -222,10 +222,10 @@
   .logo-badge {
     top: 1.5rem;
     left: 1.5rem;
-    padding: 0.7rem;
+    padding: 0.875rem;
   }
 
   .logo-badge .logo-icon {
-    height: 40px;
+    height: 50px;
   }
 }
